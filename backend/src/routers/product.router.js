@@ -4,6 +4,7 @@ import { productController } from "../controllers/product.controller.js";
 const productRouter = Router();
 
 productRouter.get("/getListOfProducts", productController.getAll);
+productRouter.get("/getProduct", productController.getOne);
 productRouter.post("/addNewProduct", productController.addNew);
 productRouter.put("/updateProduct", productController.update);
 productRouter.delete('/deleteProduct', productController.delete);

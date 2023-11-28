@@ -15,6 +15,29 @@ export const productController = {
         .json({ message: "Server error has occured while trying to retrieve products!" });
     }
   },
+  async getOne(req, res){
+    try {
+      const body = req.body;
+      const productID = body.id;  
+      const product = await productModel.findOne({_id: productID});
+      if(!product){
+        console.log(
+          `[${new Date().toISOString()}] An error has occured while trying to retrieve product. \n
+              Error details: Requested product doesn't exist in database\n`
+        );
+        return res.status(404).json({message: "Requested product doesn't exist in database"});
+      }
+       res.status(200).json(product);
+    } catch (error) {
+      console.log(
+        `[${new Date().toISOString()}] An error has occured while trying to retrieve product. \n
+            Error details:` + error
+      );
+      return res
+        .status(500)
+        .json({ message: "Server error has occured while trying to retrieve product!" });
+    }
+  },
   async addNew(req, res){
     try {
 
