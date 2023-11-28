@@ -15,6 +15,29 @@ export const raceController = {
                 .json({ message: "Server error has occured while trying to retrieve races!" });
         }
     },
+    async getOne(req, res){
+        try {
+          const body = req.body;
+          const raceID = body.id;  
+          const race = await raceModel.findOne({_id: raceID});
+          if(!race){
+            console.log(
+              `[${new Date().toISOString()}] An error has occured while trying to retrieve race. \n
+                  Error details: Requested race doesn't exist in database\n`
+            );
+            return res.status(404).json({message: "Requested race doesn't exist in database"});
+          }
+           res.status(200).json(race);
+        } catch (error) {
+          console.log(
+            `[${new Date().toISOString()}] An error has occured while trying to retrieve race. \n
+                Error details:` + error
+          );
+          return res
+            .status(500)
+            .json({ message: "Server error has occured while trying to retrieve race!" });
+        }
+      },
     async addNew(req, res){
         try {
 
