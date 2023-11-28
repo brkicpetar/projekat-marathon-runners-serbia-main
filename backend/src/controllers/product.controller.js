@@ -77,7 +77,7 @@ export const productController = {
     console.log(
         `[${new Date().toISOString()}] Product ${body.title} has been updated successfully!\n`
       );
-      return res.status(200).json({message: `Product ${body.title} has been updated successfully!`});
+      return res.status(200).json({message: `Product has been updated successfully!`});
     } catch (error) {
         console.log(
             `[${new Date().toISOString()}] An error has occured while trying to update existing product. \n
