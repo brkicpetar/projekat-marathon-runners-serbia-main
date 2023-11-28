@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 
 export function createAccessToken(data) {
-    const jwtSecret = `maratoncitrcepocasnikrug`;
+    const jwtSecret = process.env.JWT_SECRET;
     return jwt.sign({data: data}, jwtSecret, {expiresIn: '1h'});
 }
 
@@ -16,7 +16,7 @@ export function authorizeUser(req, res, next) {
     if (!token) return res.status(401).json({ message: "Invalid token" });
 
     try {
-        const jwtSecret = `maratoncitrcepocasnikrug`;
+        const jwtSecret = process.env.JWT_SECRET;
         const decoded = jwt.verify(token, jwtSecret);
         res.locals.user = decoded;
         next();
