@@ -163,11 +163,13 @@ export const userController = {
           .status(404)
           .json({ message: "Requested user was not found in database." });
     }
-    await userModel.findByIdAndRemove(userID);
+    await userModel.deleteOne({_id: userID}).then(() => {
+      console.log(`[${new Date().toISOString()}] User ${user.username} has been deleted from server successfully.`);
+      res.status(200).send();
+    });
     } catch (error) {
       console.log(`[${new Date().toISOString()}] An error has occured while trying to retrieve user data. \n
-                Error details: ${error}.
-                Username: ${username}\n`);
+                Error details: ${error}`);
         return res
           .status(500)
           .json({ message: error });
