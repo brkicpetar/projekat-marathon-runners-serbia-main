@@ -6,6 +6,6 @@ const userRouter = Router();
 userRouter.post('/login', userController.login);
 userRouter.post('/register', userController.register);
 userRouter.get('/getUserData', userController.getUserData);
-// userRouter.delete('/removeUser', userController.removeUser);
+userRouter.delete('/removeUser', userController.removeUser);
 
 export{userRouter};

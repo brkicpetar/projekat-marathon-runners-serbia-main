@@ -119,7 +119,8 @@ export const userController = {
     }
   },
   async getUserData(req, res){
-    const body = req.body;
+    try{
+      const body = req.body;
     const userID = body.id;
 
     const user = await userModel.findById(userID);
@@ -138,6 +139,38 @@ export const userController = {
         email: user.email,
         shippingData: user.shippingData
     });
+    }
+    catch(error){
+      console.log(`[${new Date().toISOString()}] An error has occured while trying to retrieve user data. \n
+                Error details: ${error}.
+                Username: ${username}\n`);
+        return res
+          .status(500)
+          .json({ message: error });
+    }
 
+  },
+  async removeUser(req, res){
+    try {
+      const body = req.body;
+    const userID = body.id;
+    const user = await userModel.findById(userID);
+    if(!user){
+      console.log(`[${new Date().toISOString()}] An error has occured while trying to remove user. \n
+                Error details: Requested user was not found in database.
+                Username: ${username}\n`);
+        return res
+          .status(404)
+          .json({ message: "Requested user was not found in database." });
+    }
+    await userModel.findByIdAndRemove(userID);
+    } catch (error) {
+      console.log(`[${new Date().toISOString()}] An error has occured while trying to retrieve user data. \n
+                Error details: ${error}.
+                Username: ${username}\n`);
+        return res
+          .status(500)
+          .json({ message: error });
+    }
   }
 };
