@@ -7,5 +7,6 @@ userRouter.post('/login', userController.login);
 userRouter.post('/register', userController.register);
 userRouter.get('/getUserData', userController.getUserData);
 userRouter.delete('/removeUser', userController.removeUser);
+userRouter.put('/updateUser', userController.update);
 
 export{userRouter};

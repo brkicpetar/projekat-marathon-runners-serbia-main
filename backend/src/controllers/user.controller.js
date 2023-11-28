@@ -168,11 +168,42 @@ export const userController = {
       res.status(200).send();
     });
     } catch (error) {
-      console.log(`[${new Date().toISOString()}] An error has occured while trying to retrieve user data. \n
+      console.log(`[${new Date().toISOString()}] An error has occured while trying to remove user data. \n
                 Error details: ${error}`);
         return res
           .status(500)
           .json({ message: error });
+    }
+  },
+  async update(req, res){
+    try {
+        const body = req.body;
+    const userID = body.id;
+
+    const existingUser = await userModel.findById(userID);
+    if(!existingUser){
+        console.log(
+            `[${new Date().toISOString()}] An error has occured while trying to update existing user. \n
+                Error details:` + error
+          );
+          return res
+            .status(500)
+            .json({ message: "Server error has occured while trying to update existing user!" });
+    }
+    delete body.id;
+    await userModel.updateOne({_id: userID}, {$set: body});
+    console.log(
+        `[${new Date().toISOString()}] User ${existingUser.username} has been updated successfully!\n`
+      );
+      return res.status(200).json({message: `User has been updated successfully!`});
+    } catch (error) {
+        console.log(
+            `[${new Date().toISOString()}] An error has occured while trying to update existing user. \n
+                Error details:` + error
+          );
+          return res
+            .status(500)
+            .json({ message: "Server error has occured while trying to update existing user!" });
     }
   }
 };
